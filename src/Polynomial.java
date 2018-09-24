@@ -1,36 +1,44 @@
 import java.util.LinkedList;
 
 public class Polynomial {
-    private LinkedList<Double> terms;
+    private double[] terms;
     private int degree;
 
     public Polynomial() {
-        terms = new LinkedList<Double>();
+        terms = new double[1];
+        degree = -1;
     }
 
     public void addTerm(double coefficient, int degree) {
         if (this.degree < degree) {
             this.degree = degree;
+            if (this.degree + 1 > terms.length) 
+                resizeUp(this.degree+1);
         }
-        terms.add(degree, coefficient);
+        terms[degree] = coefficient;
 
     }
 
     public String toString() {
         String s = "";
-        for (int i = terms.size() - 1; i >= 0; i--) {
-            if (terms.get(i) != 0) {
+        boolean leading = true;
+        for (int i = terms.length - 1; i >= 0; i--) {
+            if (terms[i] != 0) {
                 boolean plusAdded = false;
-                if (i < terms.size() - 1) {
+                if (!leading) {
                     s += " ";
                 }
-                if (terms.get(i) != 1 || i == 0) {
-                    if (!plusAdded)
+                if (terms[i] != 1 || i == 0) {
+                    if (!plusAdded & !leading)
                         s += "+ ";
-                    s += String.valueOf(terms.get(i));
+                    s += String.valueOf(terms[i]);
                 }
-                if (i != 0)
+                if (i != 0) {
+                    if (!plusAdded & !leading)
+                        s+= "+ ";
                     s += "x^" + i;
+                }
+                leading = false;
             }
         }
         return s;
@@ -38,10 +46,18 @@ public class Polynomial {
 
     public static void main(String[] args) {
         Polynomial p = new Polynomial();
+        p.addTerm(2, 7);
         p.addTerm(4, 0);
         p.addTerm(3, 1);
         p.addTerm(1, 2);
-        p.addTerm(2, 7);
         System.out.println(p);
+    }
+
+    private void resizeUp(int min) {
+        double[] larger = new double[Math.max(min, terms.length * 2)];
+        for (int i = 0; i < terms.length; i++) {
+            larger[i] = terms[i];
+        }
+        terms = larger;
     }
 }
