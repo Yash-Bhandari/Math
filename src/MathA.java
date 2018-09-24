@@ -88,8 +88,8 @@ public class MathA {
     }
 
     /**
-     * Returns a double approximation of cosine(theta) found with a 20th degree
-     * MacLaurin polynomial. Accurate up to 15 decimals places.
+     * Returns a double approximation of cosine(theta) found with a 26th degree
+     * MacLaurin polynomial. Accurate up to 10 decimals places.
      * 
      * @param theta
      *            the angle in radians
@@ -103,7 +103,7 @@ public class MathA {
             theta += 2 * PI;
         }
         double approx = 1;
-        for (int n = 1; n <= 15; n++) {
+        for (int n = 1; n <= 13; n++) {
             double add = exponent(-1, n) * exponent(theta, 2 * n) / factorial((double) (2 * n));
             approx += add;
         }
@@ -111,8 +111,8 @@ public class MathA {
     }
 
     /**
-     * Returns a double approximation of sine(theta) found with a 20th degree
-     * MacLaurin polynomial. Accurate up to 14 decimals places.
+     * Returns a double approximation of sine(theta) found with a 26th degree
+     * MacLaurin polynomial. Accurate up to 10 decimals places.
      * 
      * @param theta
      *            the angle in radians
@@ -127,10 +127,28 @@ public class MathA {
         }
         double approx = 0;
         for (int n = 1; n <= 13; n++) {
-            double add = exponent(-1, n+1) * exponent(theta, 2 * n -1) / factorial((double) (2 * n - 1));
+            double add = exponent(-1, n + 1) * exponent(theta, 2 * n - 1) / factorial((double) (2 * n - 1));
             approx += add;
         }
         return approx;
+    }
+
+    /**
+     * Returns a double approximation of tangent(theta) found with two 26th degree
+     * MacLaurin polynomials for sin and cos. Accurate up to 10 decimal places
+     * 
+     * @param theta
+     *            the angle in radians, cannot equal PI/2 + n*PI where n is an
+     *            integer
+     * @return
+     */
+    public static double tan(double theta) {
+        while (theta > PI) {
+            theta -= 2 * PI;
+        }
+        if (abs(theta) == PI / 2)
+            throw new IllegalArgumentException("Outside of domain");
+        return sin(theta) / cos(theta);
     }
 
     /**
@@ -147,8 +165,10 @@ public class MathA {
     }
 
     public static void main(String[] args) {
-        check();
-        //System.out.println(sin(PI/2));
+        double a = 1.2;
+        System.out.println(a-0.2);
+        //System.out.println(Math.tan(PI/4));
+        //System.out.println(tan(PI/4));
     }
 
     private static void check() {
@@ -156,7 +176,7 @@ public class MathA {
         double refI = 0.001;
         double index = -3.1;
         while (index <= PI) {
-            double dif = Math.sin(index) - sin(index);
+            double dif = Math.tan(index) - tan(index);
             index += 0.1;
             if (Math.abs(maxDif) < Math.abs(dif)) {
                 maxDif = dif;
