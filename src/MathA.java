@@ -19,6 +19,8 @@ public class MathA {
 	public static double exponent(double base, int power) {
 		boolean reduced = false;
 		double coeffecient = 1;
+		if (power == 0)
+			return 1;
 		while (!reduced) {
 			if (power % 2 == 0 && (power > 1 || power < -1)) {
 				base = base * base;
@@ -204,6 +206,22 @@ public class MathA {
 		if (a < 0)
 			return -a;
 		return a;
+	}
+
+	/**
+	 * Returns the first derivative of the given polynomial
+	 * 
+	 * @param p a polynomial representing (p)
+	 * @return a polynomial representing p'
+	 */
+	public static Polynomial ddx(Polynomial p) {
+		Polynomial pPrime = new Polynomial();
+		for (int i = p.degree(); i > 0; i--) {
+			if (p.getTerm(i) != 0) {
+				pPrime.setTerm(p.getTerm(i)*i, i-1);
+			}
+		}
+		return pPrime;
 	}
 
 	public static void main(String[] args) {

@@ -15,7 +15,7 @@ public class Polynomial {
 	 * @param coefficient The coefficient of the term
 	 * @param degree      The power that x is raised to
 	 */
-	public void addTerm(double coefficient, int degree) {
+	public void setTerm(double coefficient, int degree) {
 		if (this.degree < degree) {
 			this.degree = degree;
 			if (this.degree + 1 > terms.length)
@@ -23,7 +23,43 @@ public class Polynomial {
 		}
 		terms[degree] = coefficient;
 	}
-	
+
+	/**
+	 * Evaluates the polynomial for the given value of x
+	 * 
+	 * @param x the value for x in the polynomial
+	 * @return a double equivalent to the value of the polynomial after x has been
+	 *         substituted
+	 */
+	public double eval(double x) {
+		double total = 0;
+		for (int i = 0; i <= degree; i++) {
+			total += terms[i] * MathA.exponent(x, i);
+		}
+		return total;
+	}
+
+	/**
+	 * Returns the coefficient of the term of degree i in the polynomial
+	 * 
+	 * @param i the degree of the term
+	 * @return a double equivalent to the coefficient of the term
+	 */
+	public double getTerm(int i) {
+		if (i > degree)
+			throw new IllegalArgumentException();
+		return terms[i];
+	}
+
+	/**
+	 * Returns the degree of the polynomial
+	 * 
+	 * @return the degree of the polynomial, -1 if there are no terms
+	 */
+	public int degree() {
+		return degree;
+	}
+
 	public String toString() {
 		String s = "";
 		boolean leading = true;
@@ -34,14 +70,20 @@ public class Polynomial {
 					s += " ";
 				}
 				if (terms[i] != 1 || i == 0) {
-					if (!plusAdded & !leading)
+					if (!plusAdded & !leading) {
 						s += "+ ";
+						plusAdded = true;
+					}
 					s += String.valueOf(terms[i]);
 				}
 				if (i != 0) {
-					if (!plusAdded & !leading)
+					if (!plusAdded & !leading) {
 						s += "+ ";
-					s += "x^" + i;
+						plusAdded = true;
+					}
+					s += "x";
+					if (i > 1)
+						s += "^" + i;
 				}
 				leading = false;
 			}
@@ -51,11 +93,15 @@ public class Polynomial {
 
 	public static void main(String[] args) {
 		Polynomial p = new Polynomial();
-		p.addTerm(2, 7);
-		p.addTerm(4, 0);
-		p.addTerm(3, 1);
-		p.addTerm(1, 2);
+		p.setTerm(2, 7);
+		p.setTerm(4, 0);
+		p.setTerm(3, 1);
+		p.setTerm(1, 2);
 		System.out.println(p);
+		System.out.println(p.eval(2));
+		Polynomial pPrime = MathA.ddx(p);
+		System.out.println(pPrime);
+		System.out.println(pPrime.eval(2));
 	}
 
 	private void resizeUp(int min) {
