@@ -3,6 +3,7 @@ import java.util.LinkedList;
 public class Polynomial {
 	private double[] terms;
 	private int degree;
+	private boolean constant;
 
 	public Polynomial() {
 		terms = new double[1];
@@ -88,7 +89,12 @@ public class Polynomial {
 				leading = false;
 			}
 		}
+		if (constant) s += " + c";
 		return s;
+	}
+	
+	public void setConstant(boolean a) {
+		constant = a;
 	}
 
 	public static void main(String[] args) {
@@ -97,11 +103,12 @@ public class Polynomial {
 		p.setTerm(4, 0);
 		p.setTerm(3, 1);
 		p.setTerm(1, 2);
-		System.out.println(p);
-		System.out.println(p.eval(2));
+		System.out.println("f(x) + " + p);
+		//ystem.out.println(p.eval(2));
 		Polynomial pPrime = MathA.ddx(p);
-		System.out.println(pPrime);
-		System.out.println(pPrime.eval(2));
+		System.out.println("f'(x) = " + pPrime);
+		//System.out.println(pPrime.eval(2));
+		System.out.println("antiderivative of f'(x) = " + MathA.aDeriv(pPrime));
 	}
 
 	private void resizeUp(int min) {

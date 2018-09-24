@@ -223,6 +223,21 @@ public class MathA {
 		}
 		return pPrime;
 	}
+	
+	/**
+	 * Returns the antiderivative of the given polynomial
+	 * @return
+	 */
+	public static Polynomial aDeriv(Polynomial p) {
+		Polynomial integral = new Polynomial();
+		for (int i = 0; i <= p.degree(); i++)	{
+			if (p.getTerm(i) != 0) {
+				integral.setTerm(p.getTerm(i)/(i+1), i+1);
+			}
+		}
+		integral.setConstant(true);
+		return integral;
+	}
 
 	public static void main(String[] args) {
 		System.out.println(csc(0.1));
