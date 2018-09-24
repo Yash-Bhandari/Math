@@ -8,7 +8,7 @@
 public class MathA {
 
     public static final double PI = 3.14159265359;
-    
+
     /**
      * Returns a double equal to the base raised to the given power
      * 
@@ -19,6 +19,23 @@ public class MathA {
      * @return base^power
      */
     public static double exponent(double base, int power) {
+        boolean reduced = false;
+        double coeffecient = 1;
+        while (!reduced) {
+            if (power % 2 == 0 && (power > 1 || power < -1)) {
+                base = base * base;
+                power = power / 2;
+            } else if (power > 1 || power < -1) {
+                if (power > 1) {
+                    coeffecient = coeffecient * base;
+                    power--;
+                } else {
+                    coeffecient = coeffecient / base;
+                    power++;
+                }
+            } else
+                reduced = true;
+        }
         double output = base;
         if (power < 1) {
             base = 1 / base;
@@ -26,18 +43,23 @@ public class MathA {
             power = -power + 1;
         }
         for (int i = 1; i < power; i++) {
+            System.out.println("called");
             output = output * base;
         }
-        return output;
+        return output * coeffecient;
     }
 
     /**
-     * Returns an integer equal to n factorial (n*(n-1)*(n-2)*(n-3)*...*1)
+     * Returns an integer equal to n factorial (n*(n-1)*(n-2)*(n-3)*...*1). Accurate
+     * only up to and including n = 12
      * 
-     * @param n a positive integer greater than 0
+     * @param n
+     *            a positive integer greater than 0 but less than 13
      * @return n!
      */
     public static int factorial(int n) {
+        if (n > 12 || n < 1)
+            throw new IllegalArgumentException("n must be between 1 and 12, inclusive");
         int total = 1;
         for (int i = n; i > 1; i--) {
             total = total * i;
@@ -46,26 +68,102 @@ public class MathA {
     }
 
     /**
-     * Returns a double approximation of cosine(theta) found with an 8th degree
-     * MacLaurin polynomial
+     * Returns a double equal to n factorial (n*(n-1)*(n-2)*(n-3)*...*1). Accurate
+     * up to and including n = 170
+     * 
+     * 
+     * @param n
+     *            a positive double greater than 0 that will be rounded down
+     * @return n!
+     */
+    public static double factorial(double n) {
+        if (n > 170 || n < 1)
+            throw new IllegalArgumentException("n must be between 1 and 170, inclusive");
+        int a = (int) n;
+        double total = 1;
+        for (int i = (int) a; i > 1; i--) {
+            total = total * i;
+        }
+        return total;
+    }
+
+    /**
+     * Returns a double approximation of cosine(theta) found with a 20th degree
+     * MacLaurin polynomial. Accurate up to 15 decimals places.
      * 
      * @param theta
      *            the angle in radians
-     * @return cosine(theta)
+     * @return cos(theta)
      */
     public static double cos(double theta) {
-        if (theta > Math.PI);
+        while (theta > PI) {
+            theta -= 2 * PI;
+        }
+        while (theta < -PI) {
+            theta += 2 * PI;
+        }
         double approx = 1;
-        for (int n = 1; n <= 6; n++) {
-            approx += exponent(-1, n) * exponent(theta, 2*n) / factorial(2*n);
+        for (int n = 1; n <= 15; n++) {
+            double add = exponent(-1, n) * exponent(theta, 2 * n) / factorial((double) (2 * n));
+            approx += add;
         }
         return approx;
     }
 
+    /**
+     * Returns a double approximation of sine(theta) found with a 20th degree
+     * MacLaurin polynomial. Accurate up to 14 decimals places.
+     * 
+     * @param theta
+     *            the angle in radians
+     * @return sin(theta)
+     */
+    public static double sin(double theta) {
+        while (theta > PI) {
+            theta -= 2 * PI;
+        }
+        while (theta < -PI) {
+            theta += 2 * PI;
+        }
+        double approx = 0;
+        for (int n = 1; n <= 13; n++) {
+            double add = exponent(-1, n+1) * exponent(theta, 2 * n -1) / factorial((double) (2 * n - 1));
+            approx += add;
+        }
+        return approx;
+    }
+
+    /**
+     * 
+     * Returns a double that is the absolute value of the paramater
+     * 
+     * @param a
+     * @return Absolute value of a
+     */
+    public static double abs(double a) {
+        if (a < 0)
+            return -a;
+        return a;
+    }
+
     public static void main(String[] args) {
-        System.out.println(cos(PI));
-        System.out.println(cos(Math.PI));
-        int n = 8;
-        System.out.println(exponent(-1, n) * exponent(PI, 2*n) / factorial(2*n));
+        check();
+        //System.out.println(sin(PI/2));
+    }
+
+    private static void check() {
+        double maxDif = 0;
+        double refI = 0.001;
+        double index = -3.1;
+        while (index <= PI) {
+            double dif = Math.sin(index) - sin(index);
+            index += 0.1;
+            if (Math.abs(maxDif) < Math.abs(dif)) {
+                maxDif = dif;
+                refI = index - 0.1;
+            }
+        }
+        System.out.println(maxDif);
+        System.out.println(refI);
     }
 }
