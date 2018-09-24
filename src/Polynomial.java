@@ -99,7 +99,7 @@ public class Polynomial {
 
 	public static void main(String[] args) {
 		Polynomial p = new Polynomial();
-		p.setTerm(2, 7);
+		p.setTerm(2.3, 7);
 		p.setTerm(4, 0);
 		p.setTerm(3, 1);
 		p.setTerm(1, 2);

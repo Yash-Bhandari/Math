@@ -1,5 +1,6 @@
 /**
- * This class provides static methods that perform mathematical operations
+ * This class provides static methods for standard mathematical operations and
+ * simple calculus
  * 
  * @author Yash Bhandari
  *
@@ -218,21 +219,23 @@ public class MathA {
 		Polynomial pPrime = new Polynomial();
 		for (int i = p.degree(); i > 0; i--) {
 			if (p.getTerm(i) != 0) {
-				pPrime.setTerm(p.getTerm(i)*i, i-1);
+				pPrime.setTerm(p.getTerm(i) * i, i - 1);
 			}
 		}
 		return pPrime;
 	}
-	
+
 	/**
-	 * Returns the antiderivative of the given polynomial
-	 * @return
+	 * Returns the anti-derivative of the given polynomial
+	 * 
+	 * @param p a polynomial representing p(x)
+	 * @return the indefinite integral of p
 	 */
 	public static Polynomial aDeriv(Polynomial p) {
 		Polynomial integral = new Polynomial();
-		for (int i = 0; i <= p.degree(); i++)	{
+		for (int i = 0; i <= p.degree(); i++) {
 			if (p.getTerm(i) != 0) {
-				integral.setTerm(p.getTerm(i)/(i+1), i+1);
+				integral.setTerm(p.getTerm(i) / (i + 1), i + 1);
 			}
 		}
 		integral.setConstant(true);
