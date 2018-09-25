@@ -242,8 +242,37 @@ public class MathA {
 		return integral;
 	}
 
+	/**
+	 * Returns the value of n permute r as described by the formula nPr =
+	 * n!/(n-r)! Beware integer overflows.
+	 * 
+	 * @param n	an integer representing the total number of elements 
+	 * @param r	an integer representing the number of elements to permute
+	 * @return an integer representing the number of ways to permute r elements from a set of n elements
+	 */
+	public static int permute(int n, int r) {
+		double temp = factorial(n);
+		temp = temp / factorial(n - r);
+		return (int) temp;
+	}
+
+	/**
+	 * Returns the value of n choose r as described by the formula nCr =
+	 * n!/((n-r)!r!) Beware integer overflows.
+	 * 
+	 * @param n an integer representing the total number of elements
+	 * @param r an integer representing the number of elements to choose
+	 * @return an integer representing the number of ways to choose r elements from
+	 *         a set of n elements
+	 */
+	public static int choose(int n, int r) {
+		if (n == r || r == 0)
+			return 1;
+		return choose(n - 1, r - 1) + choose(n - 1, r);
+	}
+
 	public static void main(String[] args) {
-		System.out.println(csc(0.1));
+		System.out.println(choose(37, 7));
 		// check();
 		// System.out.println(Math.tan(PI/4));
 		// System.out.println(tan(PI/4));
