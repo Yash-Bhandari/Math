@@ -1,4 +1,10 @@
-import java.util.LinkedList;
+/**
+ * The Polynomial class provides a data type that can be used to define
+ * polynomial functions for simpler evaluation and to perform more advanced
+ * algebraic manipulation.
+ * 
+ * @author Yash Bhandari
+ */
 
 public class Polynomial {
 	private double[] terms;
@@ -89,10 +95,11 @@ public class Polynomial {
 				leading = false;
 			}
 		}
-		if (constant) s += " + c";
+		if (constant)
+			s += " + c";
 		return s;
 	}
-	
+
 	public void setConstant(boolean a) {
 		constant = a;
 	}
@@ -104,10 +111,10 @@ public class Polynomial {
 		p.setTerm(3, 1);
 		p.setTerm(1, 2);
 		System.out.println("f(x) + " + p);
-		//ystem.out.println(p.eval(2));
+		// ystem.out.println(p.eval(2));
 		Polynomial pPrime = MathA.ddx(p);
 		System.out.println("f'(x) = " + pPrime);
-		//System.out.println(pPrime.eval(2));
+		// System.out.println(pPrime.eval(2));
 		System.out.println("antiderivative of f'(x) = " + MathA.aDeriv(pPrime));
 	}
 

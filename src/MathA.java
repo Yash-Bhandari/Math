@@ -1,6 +1,6 @@
 /**
  * This class provides static methods for standard mathematical operations and
- * simple calculus
+ * simple calculus. 
  * 
  * @author Yash Bhandari
  *
