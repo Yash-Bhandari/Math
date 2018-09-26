@@ -17,7 +17,8 @@ public class Polynomial {
 	}
 
 	/**
-	 * Adds a term with the coefficient and degree specified to the polynomial
+	 * Adds a term with the coefficient and degree specified to the polynomial,
+	 * overwriting the previous term if it existed
 	 * 
 	 * @param coefficient The coefficient of the term
 	 * @param degree      The power that x is raised to

@@ -1,6 +1,8 @@
+import jdk.nashorn.internal.ir.CallNode.EvalArgs;
+
 /**
  * This class provides static methods for standard mathematical operations and
- * simple calculus. 
+ * simple calculus.
  * 
  * @author Yash Bhandari
  *
@@ -91,7 +93,7 @@ public class MathA {
 	 * MacLaurin polynomial. Accurate up to 10 decimals places.
 	 * 
 	 * @param theta the angle in radians
-	 * @return cos(theta)
+	 * @return cos(theta) on the domain [-PI, PI]
 	 */
 	public static double cos(double theta) {
 		while (theta > PI) {
@@ -197,12 +199,62 @@ public class MathA {
 	}
 
 	/**
+	 * Returns a double approximation of arcsin(a) accurate up to 6 decimal places
 	 * 
-	 * Returns a double that is the absolute value of the parameter
+	 * @param a a double on the domain [-PI/2, PI/2]
+	 * @return arcsin(a)
+	 */
+	public static double asin(double a) {
+		double high = PI / 2;
+		double low = -PI / 2;
+		if (abs(high - a) < 0.000001)
+			return high;
+		if (abs(low + a) < 0.000001)
+			return low;
+		double middle;
+		while (true) {
+			middle = mean(high, low);
+			double check = sin(middle);
+			if (abs(a - check) <= 0.000001) {
+				return middle;
+			}
+			if (a > check) {
+				low = middle;
+			} else {
+				high = middle;
+			}
+		}
+	}
+	
+	public static double acos(double a) {
+		double high = PI;
+		double low = 0;
+		if (abs(1 - a) < 0.000001)
+			return high;
+		if (abs(1 + a) < 0.000001)
+			return low;
+		double middle;
+		while (true) {
+			middle = mean(high, low);
+			double check = sin(middle);
+			if (abs(a - check) <= 0.000001) {
+				return middle;
+			}
+			if (a > check) {
+				low = middle;
+			} else {
+				high = middle;
+			}
+		}
+	}
+
+	/**
+	 * Returns the absolute value of the given double
 	 * 
 	 * @param a
-	 * @return Absolute value of a
+	 * @return |a|
 	 */
+
 	public static double abs(double a) {
 		if (a < 0)
 			return -a;
@@ -242,13 +294,30 @@ public class MathA {
 		return integral;
 	}
 
+	public static double defInt(Polynomial p, double lowerBound, double upperBound) {
+		Polynomial integral = aDeriv(p);
+		return integral.eval(upperBound) - integral.eval(lowerBound);
+	}
+
 	/**
-	 * Returns the value of n permute r as described by the formula nPr =
-	 * n!/(n-r)! Beware integer overflows.
+	 * Returns the mean of two doubles
 	 * 
-	 * @param n	an integer representing the total number of elements 
-	 * @param r	an integer representing the number of elements to permute
-	 * @return an integer representing the number of ways to permute r elements from a set of n elements
+	 * @param a first double
+	 * @param b second double
+	 * @return (a+b)/2
+	 */
+	public static double mean(double a, double b) {
+		return (a + b) / 2;
+	}
+
+	/**
+	 * Returns the value of n permute r as described by the formula nPr = n!/(n-r)!
+	 * Beware integer overflows.
+	 * 
+	 * @param n an integer representing the total number of elements
+	 * @param r an integer representing the number of elements to permute
+	 * @return an integer representing the number of ways to permute r elements from
+	 *         a set of n elements
 	 */
 	public static int permute(int n, int r) {
 		double temp = factorial(n);
@@ -272,7 +341,11 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(choose(37, 7));
+		System.out.println(asin(0.87));
+		// Polynomial p = new Polynomial();
+		// p.setTerm(1, 2);
+		// System.out.println(defInt(p, 0, 4));
+		// System.out.println(choose(37, 7));
 		// check();
 		// System.out.println(Math.tan(PI/4));
 		// System.out.println(tan(PI/4));
