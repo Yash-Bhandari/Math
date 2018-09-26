@@ -201,16 +201,15 @@ public class MathA {
 	/**
 	 * Returns a double approximation of arcsin(a) accurate up to 6 decimal places
 	 * 
-	 * @param a a double on the domain [-PI/2, PI/2]
+	 * @param a a double on the domain [-1, 1]
 	 * @return arcsin(a)
 	 */
 	public static double asin(double a) {
+		if (a < -1 || a > 1) throw new IllegalArgumentException("Outside of domain");
 		double high = PI / 2;
 		double low = -PI / 2;
-		if (abs(high - a) < 0.000001)
-			return high;
-		if (abs(low + a) < 0.000001)
-			return low;
+		if (sin(high) == a) return high;
+		if (sin(low) == a) return low;
 		double middle;
 		while (true) {
 			middle = mean(high, low);
@@ -229,10 +228,8 @@ public class MathA {
 	public static double acos(double a) {
 		double high = PI;
 		double low = 0;
-		if (abs(1 - a) < 0.000001)
-			return high;
-		if (abs(1 + a) < 0.000001)
-			return low;
+		if (cos(high) == a) return high;
+		if (cos(low) == a) return low;
 		double middle;
 		while (true) {
 			middle = mean(high, low);
@@ -341,7 +338,7 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(asin(0.87));
+		System.out.println(asin(1.1));
 		// Polynomial p = new Polynomial();
 		// p.setTerm(1, 2);
 		// System.out.println(defInt(p, 0, 4));
