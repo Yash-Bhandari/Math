@@ -1,4 +1,3 @@
-import jdk.nashorn.internal.ir.CallNode.EvalArgs;
 
 /**
  * This class provides static methods for standard mathematical operations and
@@ -205,11 +204,14 @@ public class MathA {
 	 * @return arcsin(a)
 	 */
 	public static double asin(double a) {
-		if (a < -1 || a > 1) throw new IllegalArgumentException("Outside of domain");
+		if (a < -1 || a > 1)
+			throw new IllegalArgumentException("Outside of domain");
 		double high = PI / 2;
 		double low = -PI / 2;
-		if (sin(high) == a) return high;
-		if (sin(low) == a) return low;
+		if (sin(high) == a)
+			return high;
+		if (sin(low) == a)
+			return low;
 		double middle;
 		while (true) {
 			middle = mean(high, low);
@@ -224,23 +226,33 @@ public class MathA {
 			}
 		}
 	}
-	
+
+	/**
+	 * Returns a double approximation of arccos(a) accurate up to 6 decimal places
+	 * 
+	 * @param a a double on the domain [-1, 1]
+	 * @return arccos(a)
+	 */
 	public static double acos(double a) {
+		if (a < -1 || a > 1)
+			throw new IllegalArgumentException("Outside of domain");
 		double high = PI;
 		double low = 0;
-		if (cos(high) == a) return high;
-		if (cos(low) == a) return low;
+		if (cos(high) == a)
+			return high;
+		if (cos(low) == a)
+			return low;
 		double middle;
 		while (true) {
 			middle = mean(high, low);
-			double check = sin(middle);
+			double check = cos(middle);
 			if (abs(a - check) <= 0.000001) {
 				return middle;
 			}
 			if (a > check) {
-				low = middle;
-			} else {
 				high = middle;
+			} else {
+				low = middle;
 			}
 		}
 	}
@@ -338,7 +350,7 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(asin(1.1));
+		System.out.println(acos(0.22));
 		// Polynomial p = new Polynomial();
 		// p.setTerm(1, 2);
 		// System.out.println(defInt(p, 0, 4));
