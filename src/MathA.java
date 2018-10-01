@@ -45,7 +45,6 @@ public class MathA {
 			power = -power + 1;
 		}
 		for (int i = 1; i < power; i++) {
-			System.out.println("called");
 			output = output * base;
 		}
 		return output * coeffecient;
@@ -198,14 +197,15 @@ public class MathA {
 	}
 
 	/**
-	 * Returns a double approximation of arcsin(a) accurate up to 6 decimal places
+	 * Returns a double approximation of arcsin(a) accurate up to 8 decimal places
 	 * 
 	 * @param a a double on the domain [-1, 1]
-	 * @return arcsin(a)
+	 * @return arcsin(a) with a range [-PI/2, PI/2]
 	 */
 	public static double asin(double a) {
 		if (a < -1 || a > 1)
 			throw new IllegalArgumentException("Outside of domain");
+
 		double high = PI / 2;
 		double low = -PI / 2;
 		if (sin(high) == a)
@@ -216,7 +216,7 @@ public class MathA {
 		while (true) {
 			middle = mean(high, low);
 			double check = sin(middle);
-			if (abs(a - check) <= 0.000001) {
+			if (abs(a - check) <= 0.00000001) {
 				return middle;
 			}
 			if (a > check) {
@@ -224,14 +224,15 @@ public class MathA {
 			} else {
 				high = middle;
 			}
+
 		}
 	}
 
 	/**
-	 * Returns a double approximation of arccos(a) accurate up to 6 decimal places
+	 * Returns a double approximation of arccos(a) accurate up to 8 decimal places
 	 * 
 	 * @param a a double on the domain [-1, 1]
-	 * @return arccos(a)
+	 * @return arccos(a) with a range [0, PI]
 	 */
 	public static double acos(double a) {
 		if (a < -1 || a > 1)
@@ -243,10 +244,13 @@ public class MathA {
 		if (cos(low) == a)
 			return low;
 		double middle;
+		int ticker = 0;
 		while (true) {
+			ticker++;
 			middle = mean(high, low);
 			double check = cos(middle);
-			if (abs(a - check) <= 0.000001) {
+			if (abs(a - check) <= 0.00000001) {
+				System.out.println(ticker + " tries");
 				return middle;
 			}
 			if (a > check) {
@@ -254,6 +258,47 @@ public class MathA {
 			} else {
 				low = middle;
 			}
+		}
+	}
+
+	/**
+	 * Returns a double approximation of arctan(a) accurate up to 8 decimal places
+	 * 
+	 * @param a a double on the domain (-infinity, infinity)
+	 * @return arccos(a) with a range (-PI/2, PI/2)
+	 */
+	public static double atan(double a) {
+		if (abs(a) < exponent(1, -5))
+			return a;
+		if (a > exponent(1, 5)) 
+			return PI / 2 - 1 / a;
+		if (a < -exponent(1, 5))
+			return PI / 2 + 1 / a;
+		if (a == Double.POSITIVE_INFINITY)
+			return PI / 2;
+		if (a == Double.NEGATIVE_INFINITY)
+			return -PI / 2;
+		double high = PI / 2 - 0.000001;
+		double low = -PI / 2 + 0.000001;
+		if (tan(high) == a)
+			return high;
+		if (tan(low) == a)
+			return low;
+		double middle;
+		int ticker = 0;
+		while (true) {
+			ticker++;
+			middle = mean(high, low);
+			double check = tan(middle);
+			if (abs(a - check) <= 0.00000001) {
+				return middle;
+			}
+			if (a > check) {
+				low = middle;
+			} else {
+				high = middle;
+			}
+
 		}
 	}
 
@@ -350,7 +395,9 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(acos(0.22));
+		// System.out.println(tan(PI));
+		System.out.println(atan(1.34E5));
+		// System.out.println(acos(0.22));
 		// Polynomial p = new Polynomial();
 		// p.setTerm(1, 2);
 		// System.out.println(defInt(p, 0, 4));
