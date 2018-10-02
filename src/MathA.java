@@ -415,7 +415,7 @@ public class MathA {
 
 	public static void main(String[] args) {
 		// Polynomial p = binom
-		System.out.println(binomial(-4, 2, 3, 0, 3));
+		System.out.println(binomExp(-4, 2, 3, 0, 3));
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
