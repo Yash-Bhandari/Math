@@ -98,7 +98,7 @@ public class Polynomial {
 						s += "+ ";
 						plusAdded = true;
 					}
-					if (terms[i] % 1 == 0) s += String.valueOf((int)(terms[i]));
+					if (terms[i] % 1 == 0 && terms[i] < MathA.exponent(2, 31)) s += String.valueOf((int)(terms[i]));
 					else s += String.valueOf(terms[i]);
 				}
 				if (i != 0) {

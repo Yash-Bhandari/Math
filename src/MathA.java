@@ -393,6 +393,20 @@ public class MathA {
 			return 1;
 		return choose(n - 1, r - 1) + choose(n - 1, r);
 	}
+	/**
+	 * Returns the value of n choose r as described by the formula nCr =
+	 * n!/((n-r)!r!) 
+	 * 
+	 * @param n a double representing the total number of elements
+	 * @param r a double representing the number of elements to choose
+	 * @return a double representing the number of ways to choose r elements from
+	 *         a set of n elements
+	 */
+	public static double choose(double n, double r) {
+		if (n == r || r == 0)
+			return 1;
+		return choose(n-1, r-1) + choose(n-1, r);
+	}
 
 	/**
 	 * Returns a polynomial representation of the provided binomial raised to the
@@ -414,8 +428,7 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		// Polynomial p = binom
-		System.out.println(binomExp(-4, 2, 3, 0, 3));
+		System.out.println(binomExp(1, 1, 3, 0, 25));
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
