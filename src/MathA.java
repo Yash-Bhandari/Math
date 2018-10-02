@@ -270,7 +270,7 @@ public class MathA {
 	public static double atan(double a) {
 		if (abs(a) < exponent(1, -5))
 			return a;
-		if (a > exponent(1, 5)) 
+		if (a > exponent(1, 5))
 			return PI / 2 - 1 / a;
 		if (a < -exponent(1, 5))
 			return PI / 2 + 1 / a;
@@ -305,8 +305,8 @@ public class MathA {
 	/**
 	 * Returns the absolute value of the given double
 	 * 
-	 * @param a
-	 * @return |a|
+	 * @param a a positive or negative double
+	 * @return a if a is positive, -a if a is negative
 	 */
 
 	public static double abs(double a) {
@@ -396,7 +396,7 @@ public class MathA {
 
 	public static void main(String[] args) {
 		// System.out.println(tan(PI));
-		System.out.println(atan(1.34E5));
+		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
 		// Polynomial p = new Polynomial();
 		// p.setTerm(1, 2);
