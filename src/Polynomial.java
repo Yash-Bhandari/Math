@@ -15,9 +15,25 @@ public class Polynomial {
 		terms = new double[1];
 		degree = -1;
 	}
-
+	
 	/**
 	 * Adds a term with the coefficient and degree specified to the polynomial,
+	 * adding to the previous term if it existed
+	 * 
+	 * @param coefficient The coefficient of the term
+	 * @param degree      The power that x is raised to
+	 */
+	public void addTerm(double coefficient, int degree) {
+		if (this.degree < degree) {
+			this.degree = degree;
+			if (this.degree + 1 > terms.length)
+				resizeUp(this.degree + 1);
+		}
+		terms[degree] += coefficient;
+	}
+
+	/**
+	 * Sets a term with the coefficient and degree specified to the polynomial,
 	 * overwriting the previous term if it existed
 	 * 
 	 * @param coefficient The coefficient of the term
@@ -82,7 +98,8 @@ public class Polynomial {
 						s += "+ ";
 						plusAdded = true;
 					}
-					s += String.valueOf(terms[i]);
+					if (terms[i] % 1 == 0) s += String.valueOf((int)(terms[i]));
+					else s += String.valueOf(terms[i]);
 				}
 				if (i != 0) {
 					if (!plusAdded & !leading) {

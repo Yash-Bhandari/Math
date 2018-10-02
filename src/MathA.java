@@ -394,7 +394,28 @@ public class MathA {
 		return choose(n - 1, r - 1) + choose(n - 1, r);
 	}
 
+	/**
+	 * Returns a polynomial representation of the provided binomial raised to the
+	 * nth power.
+	 * 
+	 * @param aCoeff the coefficient of the first term
+	 * @param aPower the degree of the first term
+	 * @param bCoeff the coefficient of the second term
+	 * @param bPower the degree of the second term
+	 * @param n      the power the binomial should be raised to
+	 * @return (aCoeff * x^aPower + bCoeff * x^bPower)^n
+	 */
+	public static Polynomial binomExp(double aCoeff, int aPower, double bCoeff, int bPower, int n) {
+		Polynomial p = new Polynomial();
+		for (int k = 0; k < n + 1; k++) {
+			p.addTerm(choose(n, k) * exponent(aCoeff, n - k) * exponent(bCoeff, k), aPower * (n - k) + bPower * (k));
+		}
+		return p;
+	}
+
 	public static void main(String[] args) {
+		// Polynomial p = binom
+		System.out.println(binomial(-4, 2, 3, 0, 3));
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
