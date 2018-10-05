@@ -1,21 +1,24 @@
 /**
  * The Polynomial class provides a data type that can be used to define
- * polynomial functions for simpler evaluation and to perform more advanced
- * algebraic manipulation.
+ * polynomial functions and other functions with negative powers of x. Provides
+ * methods for simpler evaluation and to perform calculus operations.
  * 
  * @author Yash Bhandari
  */
 
-public class Polynomial {
+public class Polynomial implements Cloneable {
 	private double[] terms;
+	private double[] negTerms;
 	private int degree;
+	private int negDegree;
 	private boolean constant;
 
 	public Polynomial() {
 		terms = new double[1];
 		degree = -1;
+		negDegree = -1;
 	}
-	
+
 	/**
 	 * Adds a term with the coefficient and degree specified to the polynomial,
 	 * adding to the previous term if it existed
@@ -24,12 +27,14 @@ public class Polynomial {
 	 * @param degree      The power that x is raised to
 	 */
 	public void addTerm(double coefficient, int degree) {
-		if (this.degree < degree) {
-			this.degree = degree;
-			if (this.degree + 1 > terms.length)
-				resizeUp(this.degree + 1);
+		if (degree >= 0) {
+			if (this.degree < degree) {
+				this.degree = degree;
+				if (this.degree + 1 > terms.length)
+					resizeUp(this.degree + 1);
+			}
+			terms[degree] += coefficient;
 		}
-		terms[degree] += coefficient;
 	}
 
 	/**
@@ -98,8 +103,10 @@ public class Polynomial {
 						s += "+ ";
 						plusAdded = true;
 					}
-					if (terms[i] % 1 == 0 && terms[i] < MathA.exponent(2, 31)) s += String.valueOf((int)(terms[i]));
-					else s += String.valueOf(terms[i]);
+					if (terms[i] % 1 == 0 && terms[i] < MathA.exponent(2, 31))
+						s += String.valueOf((int) (terms[i]));
+					else
+						s += String.valueOf(terms[i]);
 				}
 				if (i != 0) {
 					if (!plusAdded & !leading) {
@@ -118,6 +125,53 @@ public class Polynomial {
 		return s;
 	}
 
+	@Override
+	public Polynomial clone() {
+		Polynomial clone = new Polynomial();
+		for (int i = 0; i <= degree; i++) {
+			clone.addTerm(this.getTerm(i), i);
+		}
+		return clone;
+	}
+
+	/**
+	 * Clears all terms in the polynomial
+	 */
+	public void clear() {
+		degree = -1;
+		negDegree = -1;
+		setConstant(false);
+		terms = new double[0];
+	}
+
+	/**
+	 * Integrates this polynomial
+	 */
+	public void integrate() {
+		Polynomial old = (Polynomial) clone();
+		clear();
+		for (int i = 0; i <= old.degree; i++) {
+			if (old.getTerm(i) != 0) {
+				setTerm(old.getTerm(i) / (i + 1), i + 1);
+			}
+		}
+		setTerm(0, 0);
+		setConstant(true);
+	}
+
+	/**
+	 * Differentiates this polynomial
+	 */
+	public void ddx() {
+		Polynomial old = (Polynomial) clone();
+		clear();
+		for (int i = degree; i >= 1; i++) {
+			if (old.getTerm(i) != 0) {
+				setTerm(i * old.getTerm(i), i - 1);
+			}
+		}
+	}
+
 	public void setConstant(boolean a) {
 		constant = a;
 	}
@@ -130,10 +184,8 @@ public class Polynomial {
 		p.setTerm(1, 2);
 		System.out.println("f(x) + " + p);
 		// ystem.out.println(p.eval(2));
-		Polynomial pPrime = MathA.ddx(p);
-		System.out.println("f'(x) = " + pPrime);
-		// System.out.println(pPrime.eval(2));
-		System.out.println("antiderivative of f'(x) = " + MathA.aDeriv(pPrime));
+		p.integrate();
+		System.out.println("The antiderivative of f(x) = " + p);
 	}
 
 	private void resizeUp(int min) {
