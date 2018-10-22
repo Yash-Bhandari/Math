@@ -16,7 +16,7 @@ public class Polynomial implements Cloneable {
 	public Polynomial() {
 		terms = new double[1];
 		degree = -1;
-		negDegree = -1;
+		negDegree = 1;
 	}
 
 	/**
@@ -45,12 +45,21 @@ public class Polynomial implements Cloneable {
 	 * @param degree      The power that x is raised to
 	 */
 	public void setTerm(double coefficient, int degree) {
-		if (this.degree < degree) {
-			this.degree = degree;
-			if (this.degree + 1 > terms.length)
-				resizeUp(this.degree + 1);
+		if (degree < 0) {
+			if (this.negDegree > degree) {
+				this.negDegree = degree;
+				if (-this.negDegree > terms.length ) {
+					
+				}
+			}
+		} else {
+			if (this.degree < degree) {
+				this.degree = degree;
+				if (this.degree >= terms.length)
+					resizeUp(this.degree + 1);
+			}
+			terms[degree] = coefficient;
 		}
-		terms[degree] = coefficient;
 	}
 
 	/**
