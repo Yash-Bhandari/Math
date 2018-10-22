@@ -27,10 +27,18 @@ public class Polynomial implements Cloneable {
 	 * @param degree      The power that x is raised to
 	 */
 	public void addTerm(double coefficient, int degree) {
-		if (degree >= 0) {
+		if (degree < 0) {
+			if (this.negDegree > degree) {
+				this.negDegree = degree;
+				if (-this.negDegree > terms.length) {
+					resizeUp(this.degree);
+				}
+			}
+			negTerms[-degree - 1] += coefficient;
+		} else {
 			if (this.degree < degree) {
 				this.degree = degree;
-				if (this.degree + 1 > terms.length)
+				if (this.degree >= terms.length)
 					resizeUp(this.degree + 1);
 			}
 			terms[degree] += coefficient;
@@ -48,10 +56,11 @@ public class Polynomial implements Cloneable {
 		if (degree < 0) {
 			if (this.negDegree > degree) {
 				this.negDegree = degree;
-				if (-this.negDegree > terms.length ) {
-					
+				if (-this.negDegree > terms.length) {
+					resizeUp(this.degree);
 				}
 			}
+			negTerms[-degree - 1] = coefficient;
 		} else {
 			if (this.degree < degree) {
 				this.degree = degree;
@@ -178,6 +187,9 @@ public class Polynomial implements Cloneable {
 			if (old.getTerm(i) != 0) {
 				setTerm(i * old.getTerm(i), i - 1);
 			}
+		}
+		for (int i = -negDegree - 1; i >= 0; i++) {
+			if (old.getTerm(i))
 		}
 	}
 
