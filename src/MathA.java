@@ -50,6 +50,15 @@ public class MathA {
 		return output * coeffecient;
 	}
 
+	public static double exponent(double base, double power) {
+		double total = 0;
+		
+		for (int i = 0; i < 8; i++) {
+
+		}
+		return 5;
+	}
+
 	/**
 	 * Returns an integer equal to n factorial (n*(n-1)*(n-2)*(n-3)*...*1). Accurate
 	 * only up to and including n = 12
@@ -393,19 +402,20 @@ public class MathA {
 			return 1;
 		return choose(n - 1, r - 1) + choose(n - 1, r);
 	}
+
 	/**
 	 * Returns the value of n choose r as described by the formula nCr =
-	 * n!/((n-r)!r!) 
+	 * n!/((n-r)!r!)
 	 * 
 	 * @param n a double representing the total number of elements
 	 * @param r a double representing the number of elements to choose
-	 * @return a double representing the number of ways to choose r elements from
-	 *         a set of n elements
+	 * @return a double representing the number of ways to choose r elements from a
+	 *         set of n elements
 	 */
 	public static double choose(double n, double r) {
 		if (n == r || r == 0)
 			return 1;
-		return choose(n-1, r-1) + choose(n-1, r);
+		return choose(n - 1, r - 1) + choose(n - 1, r);
 	}
 
 	/**
@@ -427,8 +437,22 @@ public class MathA {
 		return p;
 	}
 
+	/**
+	 * Rounds a double up if its decimal portion is greater than or equal to 0.5,
+	 * down if it is less than 0.5
+	 * 
+	 * @param a the double to be rounded
+	 * @return the rounded value
+	 */
+	public static int round(double a) {
+		if (a - (int) a < 0.5)
+			return (int) a;
+		return (int) a + 1;
+	}
+
 	public static void main(String[] args) {
-		System.out.println(binomExp(1, 1, 3, 0, 25));
+		System.out.println(round(99.37));
+		//System.out.println(binomExp(1, 1, 3, 0, 25));
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
