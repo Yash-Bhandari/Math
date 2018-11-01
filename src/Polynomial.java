@@ -189,7 +189,6 @@ public class Polynomial implements Cloneable {
 			}
 		}
 		for (int i = -negDegree - 1; i >= 0; i++) {
-			if (old.getTerm(i))
 		}
 	}
 
