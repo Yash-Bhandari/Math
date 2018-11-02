@@ -10,15 +10,16 @@
 public class MathA {
 
 	public static final double PI = 3.14159265359;
+	public static final double e = 2.71828182845;
 
 	/**
-	 * Returns a double equal to the base raised to the given power
+	 * Returns a double equal to the base raised to the given integer power
 	 * 
-	 * @param base  a double equal to the base
+	 * @param base  a double representing the base
 	 * @param power an integer representing the base is to be raised to
 	 * @return base^power
 	 */
-	public static double exponent(double base, int power) {
+	public static double exp(double base, int power) {
 		boolean reduced = false;
 		double coeffecient = 1;
 		if (power == 0)
@@ -51,6 +52,73 @@ public class MathA {
 	}
 
 	/**
+	 * Returns a double equal to euler's number raised to the given rational power
+	 * 
+	 * @param power a double representing to power e will be raised to
+	 * @return e^power
+	 */
+	public static double exp(double power) {
+		double total = 0;
+		int nearest = round(power);
+		for (int i = 0; i < 9; i++) {
+			total += exp(e, nearest) * exp((power - nearest), i) / factorial(i);
+		}
+		return total;
+	}
+
+	/**
+	 * Returns a double equal to the base raised to the given rational power
+	 * 
+	 * @param base  a double representing the base
+	 * @param power a double representing the power the base is raised to
+	 * @return base^power
+	 */
+	public static double exp(double base, double power) {
+		double total = 0;
+		int nearest = round(power);
+		for (int i = 0; i < 8; i++) {
+			total += exp(base, nearest) * exp((power - nearest), i) / factorial(i);
+		}
+		return total;
+	}
+
+	public static double ln(double x) {
+		if (x == 1)
+			return 0;
+		double high = high(x);
+		double low = low(x);
+		if (x > 1) {
+			while (true) {
+			double guess = exp((high + low)/2);
+			if (abs(guess-x) < 0.0000001) return (high+low)/2;
+			if (guess > x) high = guess;
+			else low = guess;
+			}
+		}
+		return 5;
+	}
+
+	private static int low(double x) {
+		int low = 0;
+		int temp = 1;
+		while (temp * 2 <= x) {
+			temp = temp * 2;
+			low++;
+		}
+		return low;
+	}
+	
+	private static int high(double x) {
+		int high = 1;
+		double temp = x;
+		while (temp / 3 >= 1) {
+			temp = temp / 3;
+			high++;
+		}
+		return high;
+	}
+
+	/**
 	 * Returns an integer equal to n factorial (n*(n-1)*(n-2)*(n-3)*...*1). Accurate
 	 * only up to and including n = 12
 	 * 
@@ -58,8 +126,8 @@ public class MathA {
 	 * @return n!
 	 */
 	public static int factorial(int n) {
-		if (n > 12 || n < 1)
-			throw new IllegalArgumentException("n must be between 1 and 12, inclusive");
+		if (n > 12 || n < 0)
+			throw new IllegalArgumentException("n must be between 0 and 12, inclusive");
 		int total = 1;
 		for (int i = n; i > 1; i--) {
 			total = total * i;
@@ -102,7 +170,7 @@ public class MathA {
 		}
 		double approx = 1;
 		for (int n = 1; n <= 13; n++) {
-			double add = exponent(-1, n) * exponent(theta, 2 * n) / factorial((double) (2 * n));
+			double add = exp(-1, n) * exp(theta, 2 * n) / factorial((double) (2 * n));
 			approx += add;
 		}
 		return approx;
@@ -124,7 +192,7 @@ public class MathA {
 		}
 		double approx = 0;
 		for (int n = 1; n <= 13; n++) {
-			double add = exponent(-1, n + 1) * exponent(theta, 2 * n - 1) / factorial((double) (2 * n - 1));
+			double add = exp(-1, n + 1) * exp(theta, 2 * n - 1) / factorial((double) (2 * n - 1));
 			approx += add;
 		}
 		return approx;
@@ -268,11 +336,11 @@ public class MathA {
 	 * @return arccos(a) with a range (-PI/2, PI/2)
 	 */
 	public static double atan(double a) {
-		if (abs(a) < exponent(1, -5))
+		if (abs(a) < exp(1, -5))
 			return a;
-		if (a > exponent(1, 5))
+		if (a > exp(1, 5))
 			return PI / 2 - 1 / a;
-		if (a < -exponent(1, 5))
+		if (a < -exp(1, 5))
 			return PI / 2 + 1 / a;
 		if (a == Double.POSITIVE_INFINITY)
 			return PI / 2;
@@ -393,19 +461,20 @@ public class MathA {
 			return 1;
 		return choose(n - 1, r - 1) + choose(n - 1, r);
 	}
+
 	/**
 	 * Returns the value of n choose r as described by the formula nCr =
-	 * n!/((n-r)!r!) 
+	 * n!/((n-r)!r!)
 	 * 
 	 * @param n a double representing the total number of elements
 	 * @param r a double representing the number of elements to choose
-	 * @return a double representing the number of ways to choose r elements from
-	 *         a set of n elements
+	 * @return a double representing the number of ways to choose r elements from a
+	 *         set of n elements
 	 */
 	public static double choose(double n, double r) {
 		if (n == r || r == 0)
 			return 1;
-		return choose(n-1, r-1) + choose(n-1, r);
+		return choose(n - 1, r - 1) + choose(n - 1, r);
 	}
 
 	/**
@@ -422,13 +491,31 @@ public class MathA {
 	public static Polynomial binomExp(double aCoeff, int aPower, double bCoeff, int bPower, int n) {
 		Polynomial p = new Polynomial();
 		for (int k = 0; k < n + 1; k++) {
-			p.addTerm(choose(n, k) * exponent(aCoeff, n - k) * exponent(bCoeff, k), aPower * (n - k) + bPower * (k));
+			p.addTerm(choose(n, k) * exp(aCoeff, n - k) * exp(bCoeff, k), aPower * (n - k) + bPower * (k));
 		}
 		return p;
 	}
 
+	/**
+	 * Rounds a double up if its decimal portion is greater than or equal to 0.5,
+	 * down if it is less than 0.5
+	 * 
+	 * @param a the double to be rounded
+	 * @return the rounded value
+	 */
+	public static int round(double a) {
+		if (a - (int) a < 0.5)
+			return (int) a;
+		return (int) a + 1;
+	}
+
 	public static void main(String[] args) {
-		System.out.println(binomExp(1, 1, 3, 0, 25));
+		System.out.println(high(3.4));
+		System.out.println(ln(3.5));
+		//System.out.println(low(8));
+		//System.out.println(exp(4.7));
+		// System.out.println(round(99.7));
+		// System.out.println(binomExp(1, 1, 3, 0, 25));
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
