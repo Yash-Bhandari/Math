@@ -51,6 +51,15 @@ public class MathA {
 		return output * coeffecient;
 	}
 
+	public static double exponent(double base, double power) {
+		double total = 0;
+		
+		for (int i = 0; i < 8; i++) {
+
+		}
+		return 5;
+	}
+
 	/**
 	 * Returns a double equal to euler's number raised to the given rational power
 	 * 
@@ -510,12 +519,17 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		System.out.println(high(3.4));
 		System.out.println(ln(3.5));
 		//System.out.println(low(8));
 		//System.out.println(exp(4.7));
 		// System.out.println(round(99.7));
 		// System.out.println(binomExp(1, 1, 3, 0, 25));
+=======
+		System.out.println(round(99.37));
+		//System.out.println(binomExp(1, 1, 3, 0, 25));
+>>>>>>> 897034fda45e815bb7549448323ca083b4f92d35
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
