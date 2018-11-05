@@ -1,6 +1,7 @@
 
 /**
- * This class provides static methods for standard mathematical operations and
+ * This class provides static methods for many mathematical operations,
+ * including some not included in the default java Math class, as well as some
  * simple calculus.
  * 
  * @author Yash Bhandari
@@ -51,15 +52,6 @@ public class MathA {
 		return output * coeffecient;
 	}
 
-	public static double exponent(double base, double power) {
-		double total = 0;
-
-		for (int i = 0; i < 8; i++) {
-
-		}
-		return 5;
-	}
-
 	/**
 	 * Returns a double equal to euler's number raised to the given rational power
 	 * 
@@ -69,7 +61,7 @@ public class MathA {
 	public static double exp(double power) {
 		double total = 0;
 		int nearest = round(power);
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 13; i++) {
 			total += exp(e, nearest) * exp((power - nearest), i) / factorial(i);
 		}
 		return total;
@@ -83,10 +75,13 @@ public class MathA {
 	 * @return base^power
 	 */
 	public static double exp(double base, double power) {
+		if (base == e)
+			return exp(power);
 		double total = 0;
 		int nearest = round(power);
+		double log = ln(base);
 		for (int i = 0; i < 8; i++) {
-			total += exp(base, nearest) * exp((power - nearest), i) / factorial(i);
+			total += exp(base, nearest) * exp((log * (power - nearest)), i) / factorial(i);
 		}
 		return total;
 	}
@@ -100,11 +95,19 @@ public class MathA {
 	public static double ln(double x) {
 		if (x == 1)
 			return 0;
-		double high = high(x);
-		double low = low(x);
+		double high;
+		double low;
+		if (x > 1) {
+			high = high(x);
+			low = low(x);
+		} else {
+			high = low(x);
+			low = high(x);
+		}
+
 		while (true) {
 			double guess = exp((high + low) / 2);
-			if (abs(guess - x) < 0.0000001)
+			if (abs(guess - x) < 0.00000000001)
 				return (high + low) / 2;
 			if (guess > x)
 				high = (high + low) / 2;
@@ -114,9 +117,10 @@ public class MathA {
 	}
 
 	// returns lower bound for natural log binary search
-	private static int low(double x) {
+	private static int high(double x) {
 		int low = 0;
 		double temp = 1;
+
 		if (x < 1) {
 			while (temp >= x) {
 				temp = temp / 2;
@@ -124,7 +128,7 @@ public class MathA {
 			}
 			return low;
 		}
-		while (temp * 2 <= x) {
+		while (temp <= x) {
 			temp = temp * 2;
 			low++;
 		}
@@ -132,20 +136,18 @@ public class MathA {
 	}
 
 	// returns upper bound for natural log binary search
-	private static int high(double x) {
-		int high = 1;
-		double temp = x;
+	private static int low(double x) {
+		int high = 0;
+		double temp = 1;
 		if (x < 1) {
-			high = 0;
-			temp = 1;
 			while (temp / 3 >= x) {
 				temp = temp / 3;
 				high--;
 			}
 			return high;
 		}
-		while (temp / 3 >= 1) {
-			temp = temp / 3;
+		while (temp * 3 <= x) {
+			temp = temp * 3;
 			high++;
 		}
 		return high;
@@ -543,32 +545,25 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		//System.out.println(low(0.2));
-		 System.out.println(ln(0.2));
-		// System.out.println(low(8));
-		// System.out.println(exp(4.7));
-		// System.out.println(round(99.7));
-		// System.out.println(binomExp(1, 1, 3, 0, 25));
-		// System.out.println(round(99.37));
-		// System.out.println(binomExp(1, 1, 3, 0, 25));
-		// System.out.println(tan(PI));
-		// System.out.println(atan(1.34E5));
-		// System.out.println(acos(0.22));
-		// Polynomial p = new Polynomial();
-		// p.setTerm(1, 2);
-		// System.out.println(defInt(p, 0, 4));
-		// System.out.println(choose(37, 7));
+		double startTime = System.currentTimeMillis();
+		for (int i = 0; i < 40000; i++) {
+			double a = exp(0.42314 + i / 1000, 0.41302 + i / 2000);
+		}
+		System.out.println((System.currentTimeMillis() - startTime) / 1000);
+		// System.out.println(exp(3.1));
+		// System.out.println(ln(0.4));
 		// check();
-		// System.out.println(Math.tan(PI/4));
-		// System.out.println(tan(PI/4));
+		// System.out.println(exp(2.1, 0.034));
+		// System.out.println(exp(3.1, 2.1));
+		// System.out.println(choose(37, 7));
 	}
 
 	private static void check() {
 		double maxDif = 0;
-		double refI = 0.001;
-		double index = -3.1;
+		double refI = 0.1;
+		double index = 0.1;
 		while (index <= PI) {
-			double dif = 1 / Math.sin(index) - csc(index);
+			double dif = Math.log(index) - ln(index);
 			index += 0.1;
 			if (Math.abs(maxDif) < Math.abs(dif)) {
 				maxDif = dif;
