@@ -53,7 +53,7 @@ public class MathA {
 
 	public static double exponent(double base, double power) {
 		double total = 0;
-		
+
 		for (int i = 0; i < 8; i++) {
 
 		}
@@ -91,35 +91,59 @@ public class MathA {
 		return total;
 	}
 
+	/**
+	 * Returns a double equal to the natural logarithm of the argument
+	 * 
+	 * @param x a double representing the argument
+	 * @return ln(x)
+	 */
 	public static double ln(double x) {
 		if (x == 1)
 			return 0;
 		double high = high(x);
 		double low = low(x);
-		if (x > 1) {
-			while (true) {
-			double guess = exp((high + low)/2);
-			if (abs(guess-x) < 0.0000001) return (high+low)/2;
-			if (guess > x) high = guess;
-			else low = guess;
-			}
+		while (true) {
+			double guess = exp((high + low) / 2);
+			if (abs(guess - x) < 0.0000001)
+				return (high + low) / 2;
+			if (guess > x)
+				high = (high + low) / 2;
+			else
+				low = (high + low) / 2;
 		}
-		return 5;
 	}
 
+	// returns lower bound for natural log binary search
 	private static int low(double x) {
 		int low = 0;
-		int temp = 1;
+		double temp = 1;
+		if (x < 1) {
+			while (temp >= x) {
+				temp = temp / 2;
+				low--;
+			}
+			return low;
+		}
 		while (temp * 2 <= x) {
 			temp = temp * 2;
 			low++;
 		}
 		return low;
 	}
-	
+
+	// returns upper bound for natural log binary search
 	private static int high(double x) {
 		int high = 1;
 		double temp = x;
+		if (x < 1) {
+			high = 0;
+			temp = 1;
+			while (temp / 3 >= x) {
+				temp = temp / 3;
+				high--;
+			}
+			return high;
+		}
 		while (temp / 3 >= 1) {
 			temp = temp / 3;
 			high++;
@@ -519,17 +543,14 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
-		System.out.println(high(3.4));
-		System.out.println(ln(3.5));
-		//System.out.println(low(8));
-		//System.out.println(exp(4.7));
+		//System.out.println(low(0.2));
+		 System.out.println(ln(0.2));
+		// System.out.println(low(8));
+		// System.out.println(exp(4.7));
 		// System.out.println(round(99.7));
 		// System.out.println(binomExp(1, 1, 3, 0, 25));
-=======
-		System.out.println(round(99.37));
-		//System.out.println(binomExp(1, 1, 3, 0, 25));
->>>>>>> 897034fda45e815bb7549448323ca083b4f92d35
+		// System.out.println(round(99.37));
+		// System.out.println(binomExp(1, 1, 3, 0, 25));
 		// System.out.println(tan(PI));
 		// System.out.println(atan(1.34E5));
 		// System.out.println(acos(0.22));
