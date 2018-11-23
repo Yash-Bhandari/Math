@@ -545,9 +545,14 @@ public class MathA {
 	}
 
 	public static void main(String[] args) {
-		double startTime = System.currentTimeMillis();
+		/*double startTime = System.currentTimeMillis();
 		for (int i = 0; i < 40000; i++) {
 			double a = exp(0.42314 + i / 1000, 0.41302 + i / 2000);
+		}
+		System.out.println((System.currentTimeMillis() - startTime) / 1000);*/
+		double startTime = System.currentTimeMillis();
+		for (int i = 0; i < 40000; i++) {
+			double a = Math.pow(0.42314 + i / 1000, 0.41302 + i / 2000);
 		}
 		System.out.println((System.currentTimeMillis() - startTime) / 1000);
 		// System.out.println(exp(3.1));

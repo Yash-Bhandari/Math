@@ -81,7 +81,7 @@ public class Polynomial implements Cloneable {
 	public double eval(double x) {
 		double total = 0;
 		for (int i = 0; i <= degree; i++) {
-			total += terms[i] * MathA.exponent(x, i);
+			total += terms[i] * MathA.exp(x, i);
 		}
 		return total;
 	}
@@ -121,7 +121,7 @@ public class Polynomial implements Cloneable {
 						s += "+ ";
 						plusAdded = true;
 					}
-					if (terms[i] % 1 == 0 && terms[i] < MathA.exponent(2, 31))
+					if (terms[i] % 1 == 0 && terms[i] < MathA.exp(2, 31))
 						s += String.valueOf((int) (terms[i]));
 					else
 						s += String.valueOf(terms[i]);
