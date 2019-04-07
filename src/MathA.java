@@ -245,6 +245,9 @@ public class MathA {
 		while (theta > PI) {
 			theta -= 2 * PI;
 		}
+		while (theta < -PI) {
+			theta += 2 * PI;
+		}
 		if (abs(theta) == PI / 2)
 			throw new IllegalArgumentException("Outside of domain");
 		return sin(theta) / cos(theta);
@@ -262,6 +265,9 @@ public class MathA {
 		while (theta > PI) {
 			theta -= 2 * PI;
 		}
+		while (theta < -PI) {
+			theta += 2 * PI;
+		}
 		if (abs(theta) == PI / 2)
 			throw new IllegalArgumentException("Outside of domain");
 		return 1.0 / cos(theta);
@@ -278,6 +284,9 @@ public class MathA {
 		while (theta > PI) {
 			theta -= 2 * PI;
 		}
+		while (theta < -PI) {
+			theta += 2 * PI;
+		}
 		if (abs(theta) == PI || abs(theta) == 0)
 			throw new IllegalArgumentException("Outside of domain");
 		return 1.0 / sin(theta);
@@ -293,6 +302,9 @@ public class MathA {
 	public static double cot(double theta) {
 		while (theta > PI) {
 			theta -= 2 * PI;
+		}
+		while (theta < -PI) {
+			theta += 2 * PI;
 		}
 		if (abs(theta) == PI || abs(theta) == 0)
 			throw new IllegalArgumentException("Outside of domain");
