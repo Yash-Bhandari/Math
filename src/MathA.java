@@ -592,9 +592,11 @@ public class MathA {
 		double maxDif = 0;
 		double refI = 0.1;
 		double index = 0.1;
+		double delta = 0.1;
+
 		while (index <= PI) {
 			double dif = Math.log(index) - ln(index);
-			index += 0.1;
+			index += delta;
 			if (Math.abs(maxDif) < Math.abs(dif)) {
 				maxDif = dif;
 				refI = index - 0.1;
