@@ -431,6 +431,19 @@ public class MathA {
 	}
 
 	/**
+	 * Returns the absolute value of the given integer
+	 *
+	 * @param a a positive or negative integer
+	 * @return a if a is positive, -a if a is negative
+	 */
+
+	public static int abs(int a) {
+		if (a < 0)
+			return -a;
+		return a;
+	}
+
+	/**
 	 * Returns the first derivative of the given polynomial
 	 * 
 	 * @param p a polynomial representing (p)
